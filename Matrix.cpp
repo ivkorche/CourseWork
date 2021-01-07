@@ -49,6 +49,38 @@ Matrix::~Matrix()
 	}
 }
 
+bool Matrix::readMatrix(const char* file_name)
+{
+	if (matrix != nullptr)
+	{
+		for (int i = 0; i < height; i++)
+			delete[] matrix[i];
+		delete[] matrix;
+		matrix = nullptr;
+		width = 0;
+		height = 0;
+	}
+
+	ifstream file(file_name, ios::in);
+	if (!file.is_open())
+		return false;
+	
+	file >> height >> width;
+	if (height <= 0 || width <= 0)
+		return false;
+
+	matrix = new double*[height];
+	for (int i = 0; i < height; i++)
+		matrix[i] = new double[width];
+
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+			file >> matrix[i][j];
+
+	file.close();
+	return true;
+}
+
 Matrix& Matrix::operator= (const Matrix& right)
 {
 	if (matrix != nullptr)
@@ -71,6 +103,8 @@ Matrix& Matrix::operator= (const Matrix& right)
 		for (int j = 0; j < width; j++)
 			matrix[i][j] = right.matrix[i][j];
 	}
+
+	return *this;
 }
 
 Matrix Matrix::operator+ (const Matrix& right)

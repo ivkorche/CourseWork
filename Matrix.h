@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
 class Matrix
@@ -14,6 +16,8 @@ public:
 	Matrix(const int h, const int w);
 	Matrix(const Matrix& obj);
 	~Matrix();
+
+	bool readMatrix(const char* file_name);
 
 	Matrix& operator= (const Matrix& right);
 	Matrix operator+ (const Matrix& right);
