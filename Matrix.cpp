@@ -49,7 +49,7 @@ Matrix::~Matrix()
 	}
 }
 
-bool Matrix::readMatrix(const char* file_name)
+void Matrix::readMatrix(const string file_name)
 {
 	if (matrix != nullptr)
 	{
@@ -63,11 +63,11 @@ bool Matrix::readMatrix(const char* file_name)
 
 	ifstream file(file_name, ios::in);
 	if (!file.is_open())
-		return false;
+		throw "Wrong file name.";
 	
 	file >> height >> width;
 	if (height <= 0 || width <= 0)
-		return false;
+		throw "Wrong matrix size.";
 
 	matrix = new double*[height];
 	for (int i = 0; i < height; i++)
@@ -78,7 +78,21 @@ bool Matrix::readMatrix(const char* file_name)
 			file >> matrix[i][j];
 
 	file.close();
-	return true;
+}
+
+void Matrix::writeMatrix(const string file_name)
+{
+	ofstream file(file_name, ios::out);
+
+	file << height << " " << width;
+	for (int i = 0; i < height; i++)
+	{
+		file << endl;
+		for (int j = 0; j < width; j++)
+			file << matrix[i][j] << " ";
+	}
+
+	file.close();
 }
 
 Matrix& Matrix::operator= (const Matrix& right)
@@ -109,8 +123,8 @@ Matrix& Matrix::operator= (const Matrix& right)
 
 Matrix Matrix::operator+ (const Matrix& right)
 {
-	if (height != right.height || width != right.width)
-		throw "wrong matrix size";
+	if (height == 0 || width == 0 || height != right.height || width != right.width)
+		throw "Wrong matrix size.";
 
 	Matrix ret(*this);
 
@@ -123,8 +137,8 @@ Matrix Matrix::operator+ (const Matrix& right)
 
 Matrix Matrix::operator- (const Matrix& right)
 {
-	if (height != right.height || width != right.width)
-		throw "wrong matrix size";
+	if (height == 0 || width == 0 || height != right.height || width != right.width)
+		throw "Wrong matrix size.";
 
 	Matrix ret(*this);
 
@@ -137,15 +151,15 @@ Matrix Matrix::operator- (const Matrix& right)
 
 Matrix Matrix::operator* (const Matrix& right)
 {
-	if (width != right.height)
-		throw "wrong matrix size";
+	if (height == 0 || width == 0 || height != right.height || width != right.width)
+		throw "Wrong matrix size.";
 
 	Matrix ret(height, right.width);
 
 	for (int i = 0; i < height; i++)
 		for (int j = 0; j < right.width; j++)
 			for (int r = 0; r < width; r++)
-				ret.matrix[i][j] = matrix[i][r] + right.matrix[r][j];
+				ret.matrix[i][j] += matrix[i][r] * right.matrix[r][j];
 
 	return ret;
 }

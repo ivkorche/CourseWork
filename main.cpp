@@ -3,65 +3,119 @@
 int main()
 {
 	Matrix matrix1, matrix2, result;
+	string name;
 	bool running = true;
-	char menu_number = 0;
+	int menu_number = 0;
 
 	while (running)
 	{
-		cout << "Поместите файлы с исходными матрицами в папку с программой." << endl
-			 << "В первой строчке каждого файла должны стоять два целых числа." << endl
-			 << "Первое из чисел показывает количество строк в матрице, второе - количество столбцов." << endl
-			 << "Далее, в файл должны быть записаны значения элементов матрицы в нужном количестве." << endl << endl
-			 << "Введите пункт меню:" << endl
-			 << "1. Загрузка первой матрицы" << endl
-			 << "2. Загрузка второй матрицы" << endl
-			 << "3. Сложение матриц" << endl
-			 << "4. Вычитание матриц" << endl
-			 << "5. Умножение матриц" << endl
-			 << "6. Вывод результата в файл" << endl
-			 << "7. Выход из программы" << endl
-			 << "Вы ввели: ";
+		system("cls");
+		cout << "Place the files with the original matrices in the program folder." << endl
+			 << "The first line of each file must contain two integers." << endl
+			 << "The first number shows the number of rows in the matrix, the second shows the number of columns." << endl
+			 << "From the next line in the file, the values of the matrix elements are written." << endl << endl
+			 << "Select menu item:" << endl
+			 << "1. Loading the first matrix" << endl
+			 << "2. Loading the second matrix" << endl
+			 << "3. Matrix addition" << endl
+			 << "4. Subtracting matrices" << endl
+			 << "5. Matrix multiplication" << endl
+			 << "6. Exit the program" << endl
+			 << "You entered: ";
 		cin >> menu_number;
+		cin.get();
+		cout << endl;
 
-		if (menu_number == '1')
+		if (menu_number == 1)
 		{
+			cout << "Enter the name of the file that stores the first matrix." << endl
+				 << "You entered: ";
+			getline(cin, name);
 
+			try
+			{
+				matrix1.readMatrix(name);
+			}
+			catch (const char* error)
+			{
+				cerr << error << endl;
+			}
 		}
-		else if (menu_number == '2')
+		else if (menu_number == 2)
 		{
+			cout << "Enter the name of the file that stores the second matrix." << endl
+				<< "You entered: ";
+			getline(cin, name);
 
+			try
+			{
+				matrix2.readMatrix(name);
+			}
+			catch (const char* error)
+			{
+				cerr << error << endl;
+			}
 		}
-		else if (menu_number == '3')
+		else if (menu_number == 3)
 		{
+			cout << "Enter the name of the file to which the addition result will be written." << endl
+				<< "You entered: ";
+			getline(cin, name);
 
+			try
+			{
+				result = matrix1 + matrix2;
+				result.writeMatrix(name);
+			}
+			catch (const char* error)
+			{
+				cerr << error << endl;
+			}
 		}
-		else if (menu_number == '4')
+		else if (menu_number == 4)
 		{
+			cout << "Enter the name of the file to which the subtraction result will be written." << endl
+				<< "You entered: ";
+			getline(cin, name);
 
+			try
+			{
+				result = matrix1 - matrix2;
+				result.writeMatrix(name);
+			}
+			catch (const char* error)
+			{
+				cerr << error << endl;
+			}
 		}
-		else if (menu_number == '5')
+		else if (menu_number == 5)
 		{
+			cout << "Enter the name of the file to which the multiplication result will be written." << endl
+				<< "You entered: ";
+			getline(cin, name);
 
+			try
+			{
+				result = matrix1 * matrix2;
+				result.writeMatrix(name);
+			}
+			catch (const char* error)
+			{
+				cerr << error << endl;
+			}
 		}
-		else if (menu_number == '6')
+		else if (menu_number == 6)
 		{
-
-		}
-		else if (menu_number == '7')
-		{
-			cout << "Завершение работы." << endl;
+			cout << "Completion of work." << endl;
 			running = false;
 		}
 		else
 		{
-			cout << "Введено неправильное число." << endl;
+			cout << "Invalid number entered." << endl;
 		}
-		system("pause");
-		
+		cout << "Press any button to continue." << endl;
+		cin.get();
 	}
 
-
-
-	system("pause");
 	return 0;
 }

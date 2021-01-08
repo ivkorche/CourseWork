@@ -17,7 +17,8 @@ public:
 	Matrix(const Matrix& obj);
 	~Matrix();
 
-	bool readMatrix(const char* file_name);
+	void readMatrix(const string file_name);
+	void writeMatrix(const string file_name);
 
 	Matrix& operator= (const Matrix& right);
 	Matrix operator+ (const Matrix& right);
